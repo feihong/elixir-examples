@@ -14,6 +14,7 @@ defmodule Examples.Mixfile do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      applications: [:httpoison],
       extra_applications: [:logger]
     ]
   end
@@ -22,7 +23,8 @@ defmodule Examples.Mixfile do
   defp deps do
     [
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:httpoison, "~> 0.12"}
     ]
   end
 end
