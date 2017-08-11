@@ -9,6 +9,7 @@ Saluton mondo
 |> String.split("\n")
 
 # IO.inspect greetings
+
 for _ <- 1..10 do
   IO.puts Enum.random(greetings)
 end
