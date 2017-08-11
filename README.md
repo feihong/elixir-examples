@@ -2,15 +2,11 @@
 
 ## Installation
 
-```
-brew install elixir
-```
+`brew install elixir`
 
 ## Start a new project
 
-```
-mix new examples --module Examples
-```
+`mix new examples --module Examples`
 
 Source: [Introduction to Mix](https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html)
 
@@ -18,12 +14,12 @@ Source: [Introduction to Mix](https://elixir-lang.org/getting-started/mix-otp/in
 
 ### Fetch dependencies
 
-```
-mix deps.get
-```
+`mix deps.get`
 
 ### Run REPL with project dependencies loaded
 
-```
-iex -S mix
-```
+`iex -S mix`
+
+### Run a script
+
+`mix run parse_json.exs`
