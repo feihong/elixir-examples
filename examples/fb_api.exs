@@ -4,10 +4,12 @@ access_token = File.read!("config.json")
 
 HTTPoison.start
 
+params = %{access_token: access_token,
+           since: DateTime.utc_now() |> DateTime.to_iso8601()}
 data = HTTPoison.get!(
-  "https://graph.facebook.com/v2.9/siskelfilmcenter/events",
+  "https://graph.facebook.com/v2.9/chicagofilmfestival/events/",
   [],
-  params: %{access_token: access_token})
+  params: params)
   |> (fn response -> response.body end).()
   |> Poison.decode!
 
@@ -19,7 +21,9 @@ data
   |> (fn data -> File.write("response.json", data) end).()
 
 events = data["data"]
+|> Enum.sort_by(fn x -> x["start_time"] end)
+
 for event <- events do
-  IO.puts event["name"]
+  IO.puts "#{event["name"]}, #{event["start_time"]}"
 end
-IO.puts "Wrote #{length(events)} items to response.json"
+IO.puts "\nWrote #{length(events)} items to response.json"
