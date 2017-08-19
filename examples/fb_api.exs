@@ -1,19 +1,27 @@
-access_token = File.read!("config.json")
-  |> Poison.decode!
-  |> (fn cfg -> cfg["access_token"] end).()
-
-HTTPoison.start
-
-params = %{access_token: access_token,
-           since: DateTime.utc_now() |> DateTime.to_iso8601()}
-data = HTTPoison.get!(
-  "https://graph.facebook.com/v2.9/chicagofilmfestival/events/",
-  [],
-  params: params)
-  |> (fn response -> response.body end).()
+config = File.read!("config.json")
   |> Poison.decode!
 
-# IO.puts data
+defmodule Fetch do
+  @access_token config["access_token"]
+
+  def fetch(name) do
+    params = %{access_token: @access_token,
+               since: DateTime.utc_now() |> DateTime.to_iso8601()}
+    data = HTTPoison.get!(
+      "https://graph.facebook.com/v2.9/#{name}/events/",
+      [],
+      params: params)
+      |> (fn response -> response.body end).()
+      |> Poison.decode!
+
+    data
+  end
+end
+
+
+pages = config["pages"]
+
+data = Fetch.fetch(List.first pages)
 
 # Write the prettified JSON to file.
 data
