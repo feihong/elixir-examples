@@ -10,12 +10,15 @@ html
         tr
           th #
           th Name
-          th Start
+          th Date
+          th Time
           th Venue
       tbody
         = for {evt, num} <- Enum.with_index(events, 1) do
           tr
             td = num
             td = evt["name"]
-            td = evt["start_time"]
+            - start_time = Timex.parse!(evt["start_time"], "{ISO:Extended}")
+            td = Timex.format!(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")
+            td = Timex.format!(start_time, "{h12}:{m} {am}")
             td = evt["place"]["name"]
