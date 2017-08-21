@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Fetched #{length(events)} events
+    meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"
+  body
+    table.table
+      thead
+        tr
+          th #
+          th Name
+          th Start
+          th Venue
+      tbody
+        = for {evt, num} <- Enum.with_index(events, 1) do
+          tr
+            td = num
+            td = evt["name"]
+            td = evt["start_time"]
+            td = evt["place"]["name"]

@@ -19,15 +19,20 @@ end
 
 pages = config["pages"]
 
+# Fetch all events and sort by start_time.
 events = pages
   |> Enum.map(fn name -> Fetch.fetch(name) end)
   |> List.flatten
   |> Enum.sort_by(fn event -> event["start_time"] end)
 
-for event <- events do
-  IO.puts event["name"]
-  IO.puts event["start_time"]
-  IO.puts "------------------------"
-end
 
-IO.puts "Fetched #{length(events)} events"
+input = "report.slime" |> File.read!
+Slime.render(input, events: events)
+  |> (fn output -> File.write("report.html", output) end).()
+
+# for event <- events do
+#   IO.puts event["name"]
+#   IO.puts event["start_time"]
+#   IO.puts "------------------------"
+# end
+# IO.puts "Fetched #{length(events)} events"
