@@ -14,6 +14,10 @@ defmodule Fetch do
 
     Download.fetch(cache_name, url, params)["data"]
   end
+
+  def add_url(evt) do
+    Map.put evt, "url", "https://facebook.com/events/#{evt["id"]}"
+  end
 end
 
 
@@ -23,6 +27,7 @@ pages = config["pages"]
 events = pages
   |> Enum.map(fn name -> Fetch.fetch(name) end)
   |> List.flatten
+  |> Enum.map(&Fetch.add_url/1)
   |> Enum.sort_by(fn event -> event["start_time"] end)
 
 

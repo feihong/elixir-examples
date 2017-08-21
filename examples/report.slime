@@ -17,7 +17,8 @@ html
         = for {evt, num} <- Enum.with_index(events, 1) do
           tr
             td = num
-            td = evt["name"]
+            td
+              a href="#{evt["url"]}" target="_blank" = evt["name"]
             - start_time = Timex.parse!(evt["start_time"], "{ISO:Extended}")
             td = Timex.format!(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")
             td = Timex.format!(start_time, "{h12}:{m} {am}")
