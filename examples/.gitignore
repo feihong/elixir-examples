@@ -21,3 +21,4 @@ erl_crash.dump
 
 cache_pages/*.json
 report.html
+config/auth.exs

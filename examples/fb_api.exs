@@ -1,10 +1,6 @@
 
-config = File.read!("config.json")
-  |> Poison.decode!
-
-
 defmodule Fetch do
-  @access_token config["access_token"]
+  @access_token Application.fetch_env!(:examples, Facebook)[:access_token]
 
   def fetch(name) do
     cache_name = "facebook__#{name}"
@@ -21,7 +17,7 @@ defmodule Fetch do
 end
 
 
-pages = config["pages"]
+pages = Application.fetch_env!(:examples, Facebook)[:pages]
 
 # Fetch all events and sort by start_time.
 events = pages
@@ -34,10 +30,3 @@ events = pages
 input = "report.slime" |> File.read!
 Slime.render(input, events: events)
   |> (fn output -> File.write("report.html", output) end).()
-
-# for event <- events do
-#   IO.puts event["name"]
-#   IO.puts event["start_time"]
-#   IO.puts "------------------------"
-# end
-# IO.puts "Fetched #{length(events)} events"

@@ -26,8 +26,13 @@ defmodule Download do
   # Returns true if the file at the given path exists and was created less than
   # 24 hours ago; false otherwise.
   defp file_is_recent?(path) do
-    ctime = File.stat!(path, time: :posix).ctime |> DateTime.from_unix!
-    File.exists?(path) and DateTime.diff(DateTime.utc_now(), ctime) < (24 * @hour)
+    File.exists?(path) and
+      DateTime.diff(DateTime.utc_now(), file_ctime_datetime(path)) < (24 * @hour)
+  end
+
+  # Get the ctime of the given file as a DateTime
+  defp file_ctime_datetime(path) do
+    File.stat!(path, time: :posix).ctime |> DateTime.from_unix!
   end
 
   defp write_to_file(path, data) do
