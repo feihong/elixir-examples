@@ -36,7 +36,7 @@ defmodule Fetch do
     evt
       |> Map.put("url", "https://facebook.com/events/#{evt["id"]}")
       |> Map.put("matched_keywords", matched_keywords)
-      |> Map.update!("start_time", &(Timex.parse!(&1, "{ISO:Extended}")))
+      |> Map.put("start_dt", Timex.parse!(evt["start_time"], "{ISO:Extended}"))
   end
 
   defp sort_mapper(evt) do
