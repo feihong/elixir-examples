@@ -6,11 +6,11 @@ defmodule Fetch do
   def fetch_all() do
     pages = Application.fetch_env!(:examples, Facebook)[:pages]
 
-    # Fetch all events and sort by start_time.
+    # Fetch all events and sort.
     events = pages
       |> Enum.map(fn name -> fetch(name) end)
       |> List.flatten
-      |> Enum.map(&add_fields/1)
+      |> Enum.map(&enhance/1)
       |> Enum.sort_by(&sort_mapper/1)
   end
 
@@ -23,7 +23,7 @@ defmodule Fetch do
     Download.fetch(cache_name, url, params)["data"]
   end
 
-  defp add_fields(evt) do
+  defp enhance(evt) do
     text = evt["name"] <> "  " <> evt["description"] |> String.downcase
     matched_keywords = Enum.flat_map(@keywords,
       fn keyword -> if String.contains?(text, keyword) do
@@ -36,6 +36,7 @@ defmodule Fetch do
     evt
       |> Map.put("url", "https://facebook.com/events/#{evt["id"]}")
       |> Map.put("matched_keywords", matched_keywords)
+      |> Map.update!("start_time", &(Timex.parse!(&1, "{ISO:Extended}")))
   end
 
   defp sort_mapper(evt) do
