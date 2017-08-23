@@ -25,13 +25,11 @@ defmodule Fetch do
 
   defp enhance(evt) do
     text = evt["name"] <> "  " <> evt["description"] |> String.downcase
-    matched_keywords = Enum.flat_map(@keywords,
-      fn keyword -> if String.contains?(text, keyword) do
-          [keyword]
-        else
-          []
-        end
-      end)
+    matched_keywords =
+      for keyword <- @keywords,
+          String.contains?(text, keyword) do
+        keyword
+      end
 
     evt
       |> Map.put("url", "https://facebook.com/events/#{evt["id"]}")
