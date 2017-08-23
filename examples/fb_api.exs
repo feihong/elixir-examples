@@ -24,24 +24,33 @@ defmodule Fetch do
   end
 
   defp add_fields(evt) do
-    text = evt["name"] <> " " <> evt["description"] |> String.downcase
-    keyword_match = Enum.any?(@keywords,
-      fn keyword -> String.contains?(text, keyword) end)
+    text = evt["name"] <> "  " <> evt["description"] |> String.downcase
+    matched_keywords = Enum.flat_map(@keywords,
+      fn keyword -> if String.contains?(text, keyword) do
+          [keyword]
+        else
+          []
+        end
+      end)
 
     evt
       |> Map.put("url", "https://facebook.com/events/#{evt["id"]}")
-      |> Map.put("keyword_match", keyword_match)
+      |> Map.put("matched_keywords", matched_keywords)
   end
 
   defp sort_mapper(evt) do
-    # Make sure that events that have desired keywords are always in front
+    # Make sure that events that match keywords are always in front
     # regardless of start time.
-    num = if evt["keyword_match"], do: 0, else: 1
+    num = if length(evt["matched_keywords"]) > 0, do: 0, else: 1
     {num, evt["start_time"]}
   end
 end
 
 
+events = Fetch.fetch_all()
+match_count = events
+  |> Enum.count(fn evt -> length(evt["matched_keywords"]) > 0 end)
+
 template = "report.slime" |> File.read!
-Slime.render(template, events: Fetch.fetch_all())
+Slime.render(template, events: events, match_count: match_count)
   |> (fn output -> File.write("report.html", output) end).()
