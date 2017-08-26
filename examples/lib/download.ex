@@ -2,7 +2,7 @@ require Logger
 
 
 defmodule Download do
-  @hour 60 * 60
+  @seconds_in_day 24 * 60 * 60
 
   def fetch(cache_name, url, params) do
     path = "cache_pages/#{cache_name}.json"
@@ -27,7 +27,7 @@ defmodule Download do
   # 24 hours ago; false otherwise.
   defp file_is_recent?(path) do
     File.exists?(path) and
-      DateTime.diff(DateTime.utc_now(), file_ctime_datetime(path)) < (24 * @hour)
+      DateTime.diff(DateTime.utc_now(), file_ctime_datetime(path)) < @seconds_in_day
   end
 
   # Get the ctime of the given file as a DateTime

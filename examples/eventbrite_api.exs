@@ -6,11 +6,13 @@ defmodule EventBrite do
     url = "#{@base_url}/events/search/"
     params = %{
       token: @access_token,
-      q: "china",
+      q: "chinese",
       "location.address": "Chicago, IL"
     }
-    Download.fetch("eventbrite__china", url, params)["events"]
+    data = Download.fetch("eventbrite__chinese", url, params)
+    events = data["events"]
       |> Enum.map(&download_venue/1)
+    {data["pagination"], events}
   end
 
   def download_venue(evt) do
@@ -23,9 +25,14 @@ defmodule EventBrite do
   end
 end
 
-for evt <- EventBrite.fetch_all() do
+{pagination, events} = EventBrite.fetch_all()
+for evt <- events do
   IO.puts evt["name"]["text"]
   IO.puts evt["venue"]["name"]
   IO.puts evt["start"]["local"]
   IO.puts ""
 end
+
+%{"has_more_items" => has_more_items, "object_count" => event_count} = pagination
+IO.puts "\nFound #{event_count} items"
+IO.puts "Are there more items? #{has_more_items}"
