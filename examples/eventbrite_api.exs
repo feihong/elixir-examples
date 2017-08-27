@@ -41,7 +41,13 @@ events = EventBrite.fetch_all()
 for {evt, num} <- Enum.with_index(events, 1) do
   IO.puts "#{num}. #{evt["name"]["text"]}"
   IO.puts evt["venue"]["name"]
-  IO.puts evt["start"]["local"]
+
+  start = evt["start"]
+  naive_dt = Timex.parse!(start["local"], "{ISO:Extended}")
+  dt = Timex.to_datetime(naive_dt, start["timezone"])
+  IO.puts dt
+  IO.puts evt["url"]
+  IO.puts "Is series? #{evt["is_series"]}"
   IO.puts ""
 end
 
