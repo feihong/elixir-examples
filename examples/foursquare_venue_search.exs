@@ -10,14 +10,15 @@ params = %{
   ll: "41.854107,-87.632086",
   radius: 1600,
   section: "food",
+  # query: "chinese"
+  # novelty: "new",
   limit: 50,
 }
 
 groups = Download.fetch("foursquare__venues", url, params)["response"]["groups"]
 
-group_names = groups |> Enum.map(fn gr -> gr["name"] end)
-IO.puts "Groups: #{inspect group_names}"
-
+# group_names = groups |> Enum.map(fn gr -> gr["name"] end)
+# IO.puts "Groups: #{inspect group_names}"
 
 items = List.first(groups)["items"]
 for {item, num} <- Enum.with_index(items, 1) do
@@ -26,7 +27,8 @@ for {item, num} <- Enum.with_index(items, 1) do
   IO.puts "#{num}. #{venue["name"]}"
   categories = venue["categories"] |> Enum.map(fn cat -> cat["shortName"] end)
   IO.puts "    " <> Enum.join(categories, ", ")
-  IO.puts "    " <> venue["createdAt"]
+  IO.puts "    " <> List.first(item["tips"])["canonicalUrl"]
+  # IO.puts "    " <>
   IO.puts ""
 end
 
