@@ -1,13 +1,21 @@
 url = "https://api.meetup.com/find/events"
 params = %{
   key: Application.fetch_env!(:examples, Meetup)[:api_key],
-  lat: 41.852912,
-  lon: -87.632059,
-  radius: 1,
-  # text:  "china",
+  lat: 41.881204,
+  lon: -87.627984,
+  radius: 25,
+  text:  "chinese",
 }
 
+ignore = [
+  "chinese-11",
+  "Chinese-Language-Excitement",
+  "Free-Kung-Fu-Tai-Chi-Class",
+]
+
 events = Download.fetch("meetup__events", url, params)
+  |> Enum.filter(fn evt -> evt["group"]["urlname"] not in ignore end)
+
 for {evt, num} <- Enum.with_index(events, 1) do
   IO.puts "#{num}. #{evt["name"]}"
   IO.puts "    " <> evt["group"]["name"]
@@ -16,10 +24,11 @@ for {evt, num} <- Enum.with_index(events, 1) do
   end
   dt = DateTime.from_unix!(evt["time"], :milliseconds)
   IO.puts "    " <> Timex.format!(dt, "{Mshort} {D}, {YYYY}")
+  IO.puts "    " <> evt["link"]
   IO.puts ""
 end
 
-IO.puts "\nGot #{length(events)} events"
+IO.puts "Got #{length(events)} events"
 
 # data = HTTPoison.get!(url, [], params: params)
 #   |> (fn response -> response.body end).()
