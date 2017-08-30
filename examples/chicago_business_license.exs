@@ -38,6 +38,7 @@ licenses = Download.fetch("business_licenses", url, params)
 for {lic, num} <- Enum.with_index(licenses, 1) do
   IO.puts "#{num}. #{lic["doing_business_as_name"]}"
   IO.puts "    Ward: " <> lic["ward"]
+  # IO.puts "    Activity: " <> lic["business_activity"]
   IO.puts "    " <> lic["license_start_date"]
   IO.puts "    " <> lic["address"]
 end
