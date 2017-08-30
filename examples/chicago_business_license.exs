@@ -9,13 +9,23 @@ params = %{
   license_description: "Retail Food Establishment",
   application_type: "ISSUE",
   license_status: "AAI",
-  "$where": "date_issued > '#{date_str}'"
+  "$where": "license_start_date > '#{date_str}'"
 }
 
+target_activities = [
+  "Preparation of Food and Dining on Premise With Seating",
+  "Sale of Food Prepared Onsite Without Dining Area"
+]
+
 licenses = Download.fetch("business_licenses", url, params)
+  |> Enum.filter(fn lic -> lic["business_activity"] in target_activities end)
+  |> Enum.sort_by(fn lic -> lic["license_start_date"] end)
+
 for {lic, num} <- Enum.with_index(licenses, 1) do
   IO.puts "#{num}. #{lic["doing_business_as_name"]}"
-
+  IO.puts "    " <> lic["license_start_date"]
+  IO.puts "    " <> lic["address"]
 end
 
-IO.puts "\nFetched #{length(licenses)} business licenses"
+readable_date_str = Timex.format!(date, "{Mfull} {D}, {YYYY}")
+IO.puts "\nFetched #{length(licenses)} business licenses whose start dates were after #{readable_date_str}"
