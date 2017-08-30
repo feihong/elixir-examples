@@ -5,7 +5,7 @@
 
 url = "https://data.cityofchicago.org/resource/xqx5-8hwx.json"
 app_token = Application.fetch_env!(:examples, BusinessLicense)[:app_token]
-date = Timex.shift(Timex.today(), months: -6)
+date = Timex.shift(Timex.today(), months: -3)
 date_str = Timex.format!(date, "{YYYY}-{0M}-{0D}T00:00:00.000")
 params = %{
   "$$app_token": app_token,
@@ -17,15 +17,27 @@ params = %{
 
 target_activities = [
   "Preparation of Food and Dining on Premise With Seating",
-  "Sale of Food Prepared Onsite Without Dining Area"
+  "Sale of Food Prepared Onsite With Dining Area"
 ]
 
+filter_fn = fn lic ->
+  target_activities
+    |> Enum.any?(fn activity ->
+        String.contains?(lic["business_activity"], activity) end)
+end
+
+sort_map = fn lic ->
+  num = if lic["ward"] in ["11", "25"], do: 0, else: 1
+  {num, lic["start_date"]}
+end
+
 licenses = Download.fetch("business_licenses", url, params)
-  |> Enum.filter(fn lic -> lic["business_activity"] in target_activities end)
-  |> Enum.sort_by(fn lic -> lic["license_start_date"] end)
+  |> Enum.filter(filter_fn)
+  |> Enum.sort_by(sort_map)
 
 for {lic, num} <- Enum.with_index(licenses, 1) do
   IO.puts "#{num}. #{lic["doing_business_as_name"]}"
+  IO.puts "    Ward: " <> lic["ward"]
   IO.puts "    " <> lic["license_start_date"]
   IO.puts "    " <> lic["address"]
 end
