@@ -26,7 +26,8 @@ defmodule Examples.Mixfile do
       {:poison, "~> 3.1"},
       {:httpoison, "~> 0.12"},
       {:slime, "~> 1.0.0"},
-      {:timex, "~> 3.1"}
+      {:timex, "~> 3.1"},
+      {:topo, "~> 0.1.2"},
     ]
   end
 end
