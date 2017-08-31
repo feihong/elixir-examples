@@ -1,5 +1,5 @@
 # Browse data:
-# https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses-Current-Active/uupf-x98q
+# https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr/data
 # API docs:
 # https://dev.socrata.com/foundry/data.cityofchicago.org/xqx5-8hwx
 
@@ -15,9 +15,18 @@ params = %{
   "$where": "license_start_date > '#{date_str}'"
 }
 
+neighborhoods = Neighborhood.read("chicago-neighborhoods.geojson")
+find_hood = fn point ->
+   Neighborhood.find_neighborhood(neighborhoods, point)
+end
+
 target_activities = [
   "Preparation of Food and Dining on Premise With Seating",
   "Sale of Food Prepared Onsite With Dining Area"
+]
+target_neighborhoods = [
+  "Bridgeport",
+  "Chinatown"
 ]
 
 filter_fn = fn lic ->
@@ -27,17 +36,30 @@ filter_fn = fn lic ->
 end
 
 sort_map = fn lic ->
-  num = if lic["ward"] in ["11", "25"], do: 0, else: 1
+  num = if lic["neighborhood"] in target_neighborhoods, do: 0, else: 1
   {num, lic["start_date"]}
 end
 
 licenses = Download.fetch("business_licenses", url, params)
   |> Enum.filter(filter_fn)
+  |> Enum.map(fn lic ->
+      hood = if Map.has_key?(lic, "longitude") do
+        point = {
+          lic["longitude"] |> String.to_float,
+          lic["latitude"] |> String.to_float
+        }
+        find_hood.(point)
+      else
+        "N/A"
+      end
+      Map.put(lic, "neighborhood", hood)
+    end)
   |> Enum.sort_by(sort_map)
 
 for {lic, num} <- Enum.with_index(licenses, 1) do
   IO.puts "#{num}. #{lic["doing_business_as_name"]}"
-  IO.puts "    Ward: " <> lic["ward"]
+  IO.puts "    Neighborhood: " <> lic["neighborhood"]
+  # IO.puts "    Ward: " <> lic["ward"]
   # IO.puts "    Activity: " <> lic["business_activity"]
   IO.puts "    " <> lic["license_start_date"]
   IO.puts "    " <> lic["address"]
