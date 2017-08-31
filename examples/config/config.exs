@@ -27,4 +27,24 @@ config :examples, Facebook,
     "ChicagoCulturalCenter"
   ]
 
+config :examples, BusinessLicense,
+  target_activities: [
+    "Preparation of Food and Dining on Premise With Seating",
+    "Sale of Food Prepared Onsite With Dining Area"
+  ],
+  target_neighborhoods: [
+    "Bridgeport",
+    "Chinatown"
+  ],
+  keywords: [
+    "china",
+    "chinese",
+    "mandarin",
+    "canton",
+    "wah",
+    "happiness",
+    "phoenix",
+    "dragon",
+  ]
+
 import_config "auth.exs"
