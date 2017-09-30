@@ -1,13 +1,20 @@
 defmodule HanziServer do
   use GenServer
 
+  # Could have just used an integer here, but in general it's a good idea to
+  # use a struct to manage state.
   defmodule State do
     defstruct count: 0
   end
 
+  def get(count) do
+    GenServer.call(__MODULE__, count)
+  end
+
   # This is a convenience method for startup
   def start_link do
-    GenServer.start_link(__MODULE__, [], [{:name, __MODULE__}])
+    # GenServer.start_link(__MODULE__, [], [{:name, __MODULE__}])
+    GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
   def init([]) do
@@ -17,7 +24,8 @@ defmodule HanziServer do
   def handle_call(request, _from, state) do
     count = request
     reply = for _ <- 1..count, do: get_hanzi()
-    new_state = %State{count: state.count + count}
+    # new_state = %State{count: state.count + count}
+    new_state = %{state | count: state.count + count}
     {:reply, reply, new_state}
   end
 
