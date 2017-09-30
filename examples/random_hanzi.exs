@@ -1,4 +1,6 @@
-HanziServer.start_link
+# No need to call start_link directly, because it's automatically called by
+# Examples.Application.start/2.
+# HanziServer.start_link
 
 IO.puts GenServer.call(HanziServer, 1)
 IO.puts HanziServer.get(4)

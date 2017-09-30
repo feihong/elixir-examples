@@ -16,7 +16,7 @@ defmodule HanziServer do
   end
 
   # This is a convenience method for startup
-  def start_link do
+  def start_link(_) do
     # GenServer.start_link(__MODULE__, [], [{:name, __MODULE__}])
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end

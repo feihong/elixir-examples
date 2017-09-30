@@ -15,7 +15,8 @@ defmodule Examples.Mixfile do
   def application do
     [
       applications: [:httpoison, :timex],
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      mod: {Examples.Application, []},
     ]
   end
 
