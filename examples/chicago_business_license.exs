@@ -5,7 +5,8 @@ licenses = BusinessLicense.fetch_all(date)
 for {lic, num} <- Enum.with_index(licenses, 1) do
   IO.puts "#{num}. #{lic["doing_business_as_name"]}"
   IO.puts "    " <> lic["legal_name"]
-  IO.puts "    Neighborhood: " <> lic["neighborhood"]
+  hood = if lic["neighborhood"] == nil, do: "N/A", else: lic["neighborhood"]
+  IO.puts "    Neighborhood: " <> hood
   # IO.puts "    Ward: " <> lic["ward"]
   # IO.puts "    Activity: " <> lic["business_activity"]
   IO.puts "    " <> lic["license_start_date"]

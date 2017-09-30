@@ -3,10 +3,11 @@
 # API docs:
 # https://dev.socrata.com/foundry/data.cityofchicago.org/xqx5-8hwx
 
+
 defmodule BusinessLicense do
   @target_activities Application.fetch_env!(:examples, BusinessLicense)[:target_activities]
   @target_neighborhoods Application.fetch_env!(:examples, BusinessLicense)[:target_neighborhoods]
-  @neighborhoods Neighborhood.read("chicago-neighborhoods.geojson")
+  @neighborhoods Neighborhood.read("chicago_neighborhoods")
   @keywords Application.fetch_env!(:examples, BusinessLicense)[:keywords]
 
   def fetch_all(after_date) do
