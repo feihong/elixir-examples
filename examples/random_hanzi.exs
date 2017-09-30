@@ -1,7 +1,9 @@
 HanziServer.start_link
 
 IO.puts GenServer.call(HanziServer, 1)
-IO.puts GenServer.call(HanziServer, 4)
-IO.puts GenServer.call(HanziServer, 2)
+IO.puts HanziServer.get(4)
+IO.puts HanziServer.get(2)
 
-IO.puts GenServer.cast(HanziServer, {})
+# Request HanziServer to print the number of hanzi served.
+# GenServer.cast(HanziServer, {})
+HanziServer.report

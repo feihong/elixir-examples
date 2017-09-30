@@ -11,6 +11,10 @@ defmodule HanziServer do
     GenServer.call(__MODULE__, count)
   end
 
+  def report() do
+    GenServer.cast(__MODULE__, {})
+  end
+
   # This is a convenience method for startup
   def start_link do
     # GenServer.start_link(__MODULE__, [], [{:name, __MODULE__}])
