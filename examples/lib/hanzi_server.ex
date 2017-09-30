@@ -17,13 +17,12 @@ defmodule HanziServer do
 
   # This is a convenience method for startup
   def start_link(_) do
-    # GenServer.start_link(__MODULE__, [], [{:name, __MODULE__}])
-    GenServer.start_link(__MODULE__, [], name: __MODULE__)
+    GenServer.start_link(__MODULE__, %State{}, name: __MODULE__)
   end
 
-  def init([]) do
-    {:ok, %State{}}
-  end
+  # def init(state) do
+  #   {:ok, state}
+  # end
 
   def handle_call(request, _from, state) do
     count = request
@@ -38,17 +37,17 @@ defmodule HanziServer do
     {:noreply, state}
   end
 
-  def handle_info(_info, state) do
-    {:noreply, state}
-  end
-
-  def terminate(_reason, _state) do
-    {:ok}
-  end
-
-  def code_change(_old_version, state, _extra) do
-    {:ok, state}
-  end
+  # def handle_info(_info, state) do
+  #   {:noreply, state}
+  # end
+  #
+  # def terminate(_reason, _state) do
+  #   {:ok}
+  # end
+  #
+  # def code_change(_old_version, state, _extra) do
+  #   {:ok, state}
+  # end
 
   # internal function
   defp get_hanzi() do
