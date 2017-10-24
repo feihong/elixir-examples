@@ -2,7 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :examples,
+config :misc,
   keywords: [
     "china",
     "chinese",
@@ -13,7 +13,7 @@ config :examples,
     "chinatown"
   ]
 
-config :examples, Facebook,
+config :misc, Facebook,
   pages: [
     "ChineseFineArts",
     "ccamuseum",
@@ -27,7 +27,7 @@ config :examples, Facebook,
     "ChicagoCulturalCenter"
   ]
 
-config :examples, BusinessLicense,
+config :misc, BusinessLicense,
   target_activities: [
     "Preparation of Food and Dining on Premise With Seating",
     "Sale of Food Prepared Onsite With Dining Area"

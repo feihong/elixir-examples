@@ -1,9 +1,9 @@
-defmodule Examples.Mixfile do
+defmodule Misc.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :examples,
+      app: :misc,
       version: "0.1.0",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
@@ -16,7 +16,7 @@ defmodule Examples.Mixfile do
     [
       applications: [:httpoison, :timex],
       extra_applications: [:logger],
-      mod: {Examples.Application, []},
+      mod: {Misc.Application, []},
     ]
   end
 

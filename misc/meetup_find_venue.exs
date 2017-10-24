@@ -2,7 +2,7 @@ name = "AMC River East 21"
 
 url = "https://api.meetup.com/find/venues"
 params = %{
-  key: Application.fetch_env!(:examples, Meetup)[:api_key],
+  key: Application.fetch_env!(:misc, Meetup)[:api_key],
   text: name,
   location: "322 E Illinois St, Chicago, IL 60611",
 }

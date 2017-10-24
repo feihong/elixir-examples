@@ -5,10 +5,10 @@
 
 
 defmodule BusinessLicense do
-  @target_activities Application.fetch_env!(:examples, BusinessLicense)[:target_activities]
-  @target_neighborhoods Application.fetch_env!(:examples, BusinessLicense)[:target_neighborhoods]
+  @target_activities Application.fetch_env!(:misc, BusinessLicense)[:target_activities]
+  @target_neighborhoods Application.fetch_env!(:misc, BusinessLicense)[:target_neighborhoods]
   @neighborhoods Neighborhood.read("chicago_neighborhoods")
-  @keywords Application.fetch_env!(:examples, BusinessLicense)[:keywords]
+  @keywords Application.fetch_env!(:misc, BusinessLicense)[:keywords]
 
   def fetch_all(after_date) do
     url = "https://data.cityofchicago.org/resource/xqx5-8hwx.json"

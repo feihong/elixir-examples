@@ -1,6 +1,6 @@
 url = "https://api.meetup.com/find/events"
 params = %{
-  key: Application.fetch_env!(:examples, Meetup)[:api_key],
+  key: Application.fetch_env!(:misc, Meetup)[:api_key],
   lat: 41.881204,
   lon: -87.627984,
   radius: 25,

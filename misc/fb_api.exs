@@ -1,10 +1,10 @@
 
 defmodule Fetch do
-  @keywords Application.fetch_env!(:examples, :keywords)
-  @access_token Application.fetch_env!(:examples, Facebook)[:access_token]
+  @keywords Application.fetch_env!(:misc, :keywords)
+  @access_token Application.fetch_env!(:misc, Facebook)[:access_token]
 
   def fetch_all() do
-    pages = Application.fetch_env!(:examples, Facebook)[:pages]
+    pages = Application.fetch_env!(:misc, Facebook)[:pages]
 
     # Fetch all events and sort.
     events = pages

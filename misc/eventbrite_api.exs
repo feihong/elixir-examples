@@ -1,7 +1,7 @@
 defmodule EventBrite do
   @base_url "https://www.eventbriteapi.com/v3"
-  @access_token Application.fetch_env!(:examples, EventBrite)[:access_token]
-  @keywords Application.fetch_env!(:examples, :keywords)
+  @access_token Application.fetch_env!(:misc, EventBrite)[:access_token]
+  @keywords Application.fetch_env!(:misc, :keywords)
 
   def fetch_all() do
     @keywords

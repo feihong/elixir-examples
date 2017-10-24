@@ -1,7 +1,7 @@
 # https://developer.foursquare.com/docs/venues/explore
 
 url = "https://api.foursquare.com/v2/venues/explore"
-cfg = Application.fetch_env!(:examples, FourSquare)
+cfg = Application.fetch_env!(:misc, FourSquare)
 params = %{
   v: "20170827",
   m: "foursquare",

@@ -1,4 +1,4 @@
-defmodule Examples do
+defmodule Misc do
   @moduledoc """
   Documentation for Examples.
   """
@@ -8,7 +8,7 @@ defmodule Examples do
 
   ## Examples
 
-      iex> Examples.hello
+      iex> Misc.hello
       :world
 
   """
