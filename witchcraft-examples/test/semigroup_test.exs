@@ -36,6 +36,16 @@ defmodule SemigroupTest do
     assert (fn1 <> fn2).(4) == 10
   end
 
+  test "append" do
+    result =
+      [1,2,3]
+      |> append([4,5])
+      |> append([6,7,8,9])
+      |> append([])
+      |> append([10])
+    assert result == Enum.to_list 1..10
+  end
+
   test "concat" do
     result = concat([
       [1,2,3],
