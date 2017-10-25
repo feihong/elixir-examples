@@ -20,8 +20,14 @@ defmodule SemigroupTest do
 
   test "set" do
     s1 = [1,2,3] |> Enum.into(MapSet.new)
-    s2 = Enum.into([2,3,4,5], MapSet.new)
+    s2 = Enum.into [2,3,4,5], MapSet.new
     assert s1 <> s2 == [1,2,3,4,5] |> MapSet.new
+  end
+
+  test "keyword list" do
+    l1 = [a: 1, b: 2, c: 3]
+    l2 = [a: 11, d: 44, c: 33]
+    assert l1 <> l2 == [a: 1, b: 2, c: 3, a: 11, d: 44, c: 33]
   end
 
   test "function" do
